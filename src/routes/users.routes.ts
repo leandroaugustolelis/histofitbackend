@@ -5,7 +5,7 @@ import CreateUserService from '../services/CreateUserService';
 const usersRouter = Router();
 
 usersRouter.get('/', async (request, response) =>
-  response.json({ message: 'Hello GoStack' })
+  response.json({ message: 'Hello JustBe' })
 );
 
 usersRouter.post('/', async (request, response) => {
