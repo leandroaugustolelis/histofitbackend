@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import User from '../models/User';
-import authconfig from '../config/auth';
+import User from '../../typeorm/entities/User';
+import authconfig from '../../../../../config/auth';
 
 const sessionsRouter = Router();
 
