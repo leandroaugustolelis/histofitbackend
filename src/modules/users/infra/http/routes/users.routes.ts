@@ -14,7 +14,7 @@ const usersController = new UsersController();
 const userAvatarController = new UserAvatarController();
 
 usersRouter.post('/', usersController.create);
-usersRouter.get('/', usersController.index);
+usersRouter.get('/', ensureAuthenticated, usersController.index);
 usersRouter.patch(
   '/avatar',
   ensureAuthenticated,

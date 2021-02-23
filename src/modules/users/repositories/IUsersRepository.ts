@@ -1,4 +1,5 @@
 import ICreateUserDTO from '../dtos/ICreateUserDTO';
+import IFindAllUsersDTO from '../dtos/IFindAllUsersDTO';
 import IUpdateUserDTO from '../dtos/IUpdateUserDTO';
 import User from '../infra/typeorm/entities/User';
 
@@ -8,5 +9,5 @@ export default interface IUsersRepository {
   create(data: ICreateUserDTO): Promise<User>;
   update(data: IUpdateUserDTO): Promise<User>;
   save(user: User): Promise<User>;
-  listUsers(): Promise<User[]>;
+  findAllUsers(data: IFindAllUsersDTO): Promise<User[]>;
 }

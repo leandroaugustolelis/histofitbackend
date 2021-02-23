@@ -2,6 +2,10 @@ import { injectable, inject } from 'tsyringe';
 import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
 
+interface IRequest {
+  user_id: string;
+}
+
 @injectable()
 class ListUsersService {
   constructor(
@@ -9,8 +13,10 @@ class ListUsersService {
     private usersRepository: IUsersRepository
   ) {}
 
-  public async execute(): Promise<User[]> {
-    const users = await this.usersRepository.listUsers();
+  public async execute({ user_id }: IRequest): Promise<User[]> {
+    const users = await this.usersRepository.findAllUsers({
+      except_user_id: user_id,
+    });
 
     return users;
   }
