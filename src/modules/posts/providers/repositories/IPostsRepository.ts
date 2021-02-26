@@ -1,7 +1,8 @@
 import ICreatePostDTO from '../../dtos/ICreatePostDTO';
-import Post from '../../infra/http/typeorm/schemas/Post';
+import IFindAllPostsDTO from '../../dtos/IFindAllPostsDTO';
+import Post from '../../infra/http/typeorm/models/Post';
 
 export default interface IPostsRepository {
   create(data: ICreatePostDTO): Promise<Post>;
-  // findById(id: string): Promise<Post | undefined>;
+  findAllById(data: IFindAllPostsDTO): Promise<Post[]>;
 }

@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 import IPostsRepository from '../providers/repositories/IPostsRepository';
 import IStorageProvider from '../../../shared/container/providers/StorageProvider/models/IStorageProvider';
-import Post from '../infra/http/typeorm/schemas/Post';
+import Post from '../infra/http/typeorm/models/Post';
 
 interface IRequest {
   user_id: string;
@@ -9,7 +9,6 @@ interface IRequest {
   location: string;
   caption: string;
   postFilename: string;
-  comments: string;
 }
 
 @injectable()
@@ -28,7 +27,6 @@ class CreatePostService {
     location,
     caption,
     postFilename,
-    comments,
   }: IRequest): Promise<Post> {
     const fileName = await this.storageProvider.saveFile(postFilename);
 
@@ -37,7 +35,6 @@ class CreatePostService {
       date,
       location,
       caption,
-      comments,
       image: fileName,
     });
 

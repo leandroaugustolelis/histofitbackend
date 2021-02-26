@@ -4,21 +4,27 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ObjectIdColumn,
-  ObjectID,
+  ManyToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import uploadConfig from '../../../../../../config/upload';
+import User from '../../../../../users/infra/typeorm/entities/User';
 
 @Entity('posts')
 class Post {
-  @ObjectIdColumn()
-  id: ObjectID;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   user_id: string;
 
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
   @Column()
-  image: string;
+  photo: string;
 
   @Column()
   date: Date;
@@ -29,9 +35,6 @@ class Post {
   @Column()
   caption: string;
 
-  @Column()
-  comments: string;
-
   @CreateDateColumn()
   created_at: Date;
 
@@ -40,12 +43,12 @@ class Post {
 
   @Expose({ name: 'imageUrl' })
   getImageUrl(): string | null {
-    if (!this.image) return null;
+    if (!this.photo) return null;
     switch (uploadConfig.driver) {
       case 'disk':
-        return `${process.env.APP_API_URL}/files/${this.image}`;
+        return `${process.env.APP_API_URL}/files/${this.photo}`;
       case 's3':
-        return `https://${uploadConfig.config.aws.bucket}.s3.us-east-2.amazonaws.com/${this.image}`;
+        return `https://${uploadConfig.config.aws.bucket}.s3.us-east-2.amazonaws.com/${this.photo}`;
       default:
         return null;
     }

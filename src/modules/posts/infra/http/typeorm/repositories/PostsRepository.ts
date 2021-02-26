@@ -1,14 +1,15 @@
-import { getMongoRepository, MongoRepository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
 import IPostsRepository from '../../../../providers/repositories/IPostsRepository';
-import Post from '../schemas/Post';
 import ICreatePostDTO from '../../../../dtos/ICreatePostDTO';
+import IFindAllPostsDTO from '../../../../dtos/IFindAllPostsDTO';
+import Post from '../models/Post';
 
 class PostsRepository implements IPostsRepository {
-  private ormRepository: MongoRepository<Post>;
+  private ormRepository: Repository<Post>;
 
   constructor() {
-    this.ormRepository = getMongoRepository(Post, 'mongodb');
+    this.ormRepository = getRepository(Post);
   }
 
   public async create({
@@ -16,19 +17,25 @@ class PostsRepository implements IPostsRepository {
     date,
     location,
     caption,
-    comments,
   }: ICreatePostDTO): Promise<Post> {
     const post = this.ormRepository.create({
       user_id,
       date,
       location,
       caption,
-      comments,
     });
 
     await this.ormRepository.save(post);
 
     return post;
+  }
+
+  public async findAllById({ user_id }: IFindAllPostsDTO): Promise<Post[]> {
+    const posts = await this.ormRepository.find({
+      where: { id: user_id },
+    });
+
+    return posts;
   }
 }
 
