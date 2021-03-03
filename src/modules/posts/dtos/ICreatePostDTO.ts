@@ -3,5 +3,5 @@ export default interface ICreatePostDTO {
   location: string;
   date: Date;
   caption: string;
-  image: string;
+  photo: string;
 }

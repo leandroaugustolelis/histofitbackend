@@ -1,6 +1,7 @@
 import { injectable, inject } from 'tsyringe';
+import { OrderByCondition } from 'typeorm';
+import Post from '../infra/typeorm/entities/Post';
 import IPostsRepository from '../providers/repositories/IPostsRepository';
-import Post from '../infra/http/typeorm/models/Post';
 
 interface IRequest {
   user_id: string;
@@ -9,7 +10,7 @@ interface IRequest {
 @injectable()
 class ListPostsService {
   constructor(
-    @inject('PostRepository')
+    @inject('PostsRepository')
     private postsRepository: IPostsRepository
   ) {}
 

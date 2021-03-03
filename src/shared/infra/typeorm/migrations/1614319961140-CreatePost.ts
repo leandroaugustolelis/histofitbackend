@@ -25,14 +25,17 @@ export default class CreatePost1614319961140 implements MigrationInterface {
           {
             name: 'date',
             type: 'timestamp',
+            isNullable: true,
           },
           {
             name: 'caption',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'location',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'created_at',

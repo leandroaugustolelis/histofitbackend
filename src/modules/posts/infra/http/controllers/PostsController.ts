@@ -1,15 +1,14 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
-import { uuid } from 'uuidv4';
-import CreatePostService from '../../../repositories/CreatePostService';
 import ListPostsService from '../../../repositories/ListPostsService';
+import CreatePostService from '../../../repositories/CreatePostService';
 
 class PostsController {
   public async create(request: Request, response: Response): Promise<Response> {
-    console.log('oii');
-    const { location, caption, date, postFilename } = request.body;
-    const user_id = uuid();
+    const { location, caption, date } = request.body;
+
+    const { id: user_id } = request.user;
 
     const createPost = container.resolve(CreatePostService);
 
@@ -18,7 +17,7 @@ class PostsController {
       location,
       caption,
       date,
-      postFilename,
+      photoFilename: request.file.filename,
     });
 
     return response.json(post);
@@ -26,13 +25,12 @@ class PostsController {
 
   public async index(request: Request, response: Response): Promise<Response> {
     const { id: user_id } = request.user;
-    console.log(user_id);
+
     const listPosts = container.resolve(ListPostsService);
 
     const posts = await listPosts.execute({
       user_id,
     });
-
     return response.json(classToClass(posts));
   }
 }

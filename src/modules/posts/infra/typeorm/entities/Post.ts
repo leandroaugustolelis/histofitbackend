@@ -8,8 +8,8 @@ import {
   JoinColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import uploadConfig from '../../../../../../config/upload';
-import User from '../../../../../users/infra/typeorm/entities/User';
+import uploadConfig from '../../../../../config/upload';
+import User from '../../../../users/infra/typeorm/entities/User';
 
 @Entity('posts')
 class Post {
@@ -41,7 +41,7 @@ class Post {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Expose({ name: 'imageUrl' })
+  @Expose({ name: 'photoUrl' })
   getImageUrl(): string | null {
     if (!this.photo) return null;
     switch (uploadConfig.driver) {

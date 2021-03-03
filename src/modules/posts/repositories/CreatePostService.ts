@@ -1,20 +1,20 @@
 import { injectable, inject } from 'tsyringe';
 import IPostsRepository from '../providers/repositories/IPostsRepository';
 import IStorageProvider from '../../../shared/container/providers/StorageProvider/models/IStorageProvider';
-import Post from '../infra/http/typeorm/models/Post';
+import Post from '../infra/typeorm/entities/Post';
 
 interface IRequest {
   user_id: string;
   date: Date;
   location: string;
   caption: string;
-  postFilename: string;
+  photoFilename: string;
 }
 
 @injectable()
 class CreatePostService {
   constructor(
-    @inject('PostRepository')
+    @inject('PostsRepository')
     private postsRepository: IPostsRepository,
 
     @inject('StorageProvider')
@@ -26,17 +26,17 @@ class CreatePostService {
     date,
     location,
     caption,
-    postFilename,
+    photoFilename,
   }: IRequest): Promise<Post> {
-    const fileName = await this.storageProvider.saveFile(postFilename);
-
     const post = await this.postsRepository.create({
       user_id,
       date,
       location,
       caption,
-      image: fileName,
+      photo: photoFilename,
     });
+
+    await this.storageProvider.saveFile(photoFilename);
 
     return post;
   }
