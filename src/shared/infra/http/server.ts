@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import 'dotenv/config';
+import cors from 'cors';
 import { errors } from 'celebrate';
 import 'express-async-errors';
 import express, { Request, Response, NextFunction } from 'express';
@@ -10,6 +11,7 @@ import '../../container';
 import '../typeorm';
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.use(routes);
